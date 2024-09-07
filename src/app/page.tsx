@@ -2,9 +2,9 @@
 import { useState } from "react";
 import CropImage  from "@/app/components/CropImage";
 export default function Home() {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<any>(null);
   const [displayImage, setdisplayImage] = useState(false);
-  const [fileDispaly, setFileDispaly] = useState<string>();
+  const [fileDispaly, setFileDispaly] = useState<string>('');
 
   const handleFileChange = (event: any) => {
     setSelectedFile(event.target.files[0]);
@@ -35,7 +35,7 @@ export default function Home() {
     </div>
     {selectedFile && (
       <div className="text-sm text-gray-500 mb-4 truncate">
-        Selected file: {selectedFile.name}
+        Selected file: {selectedFile?.name}
       </div>
     )}
     <button

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 "use client"; // This is a client component 
 import { connect } from "http2";
 import { useState, useRef } from "react";
@@ -18,16 +20,17 @@ export default function CropImage({ imageSrc }: { imageSrc: string }) {
     });
     const [dragging, setDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
-    const imgRef = useRef(null);
-    const cropRef = useRef(null);
+    const imgRef = useRef<HTMLImageElement | null>(null);
+    const cropRef = useRef<HTMLInputElement>(null);
     const [croppedImage, setCroppedImage] = useState<string>();
-    const startDrag = (e) => {
+    const startDrag = (e: any) => {
         e.preventDefault();
         // Calculate offset between the mouse pointer and the top-left corner of the crop box
-        const rect = cropRef.current.getBoundingClientRect();
+        const rect = cropRef?.current?.getBoundingClientRect() as DOMRect;
+        const { left, top} = rect;
         setOffset({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
+          x: e.clientX - left,
+          y: e.clientY - top,
         });
         setDragging(true);
     };
@@ -46,9 +49,10 @@ export default function CropImage({ imageSrc }: { imageSrc: string }) {
             if(!imgRef){
                 return;
             }
-            const rect = imgRef?.current.getBoundingClientRect();
-            const newX = clientX - rect.left - offset.x;
-            const newY = clientY - rect.top - offset.y;
+            const rect = imgRef?.current?.getBoundingClientRect?.() as DOMRect;
+            const { left, top} = rect;
+            const newX = clientX - left - offset.x;
+            const newY = clientY - top - offset.y;
             setCrop((prev) => ({
                 ...prev,
                 x: Math.max(0, Math.min(newX, rect.width - prev.width)),
