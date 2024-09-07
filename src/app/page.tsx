@@ -2,7 +2,7 @@
 import { useState } from "react";
 import CropImage  from "@/app/components/CropImage";
 export default function Home() {
-  const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [displayImage, setdisplayImage] = useState(false);
   const [fileDispaly, setFileDispaly] = useState<string>('');
 
